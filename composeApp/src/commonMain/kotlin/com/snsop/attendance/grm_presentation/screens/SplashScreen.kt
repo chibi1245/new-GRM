@@ -1,4 +1,5 @@
 package com.snsop.attendance.grm_presentation.screens
+
 import ButtonLoader
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
@@ -12,31 +13,35 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.layout.ContentScale
-
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.tooling.preview.Preview
+import kotlinx.coroutines.delay
+
 import attendance.composeapp.generated.resources.Res
 import attendance.composeapp.generated.resources.ic_logo
-import kotlinx.coroutines.delay
+import org.jetbrains.compose.resources.painterResource
 
 import com.snsop.attendance.grm_presentation.components.animation.FadeInWidget
 import com.snsop.attendance.grm_presentation.components.animation.SlideUpWidget
-import com.snsop.attendance.ui.theme.AttendanceTheme
 
+
+import com.snsop.attendance.ui.theme.AttendanceTheme
 import com.snsop.attendance.ui.theme.black45
 import com.snsop.attendance.ui.theme.primary
 import com.snsop.attendance.ui.theme.ribeyeTitle
 import com.snsop.attendance.ui.theme.white
-import org.jetbrains.compose.resources.painterResource
 
 @Composable
 fun SplashScreen(
-    onNavigateToOnBoard: () -> Unit
+    onNavigateToOnBoard: () -> Unit = {}
 ) {
+    // ⛔ Prevent navigation crash in Preview
     LaunchedEffect(Unit) {
-        delay(2000)
-        onNavigateToOnBoard()
+        if (onNavigateToOnBoard !== {}) {
+            delay(2000)
+            onNavigateToOnBoard()
+        }
     }
 
     Surface(
@@ -66,7 +71,7 @@ fun SplashScreen(
 
                 Spacer(modifier = Modifier.height(30.dp))
 
-                // 🔹 Fade-in title text
+                // 🔹 Fade-in title
                 FadeInWidget(delay = 0.4) {
                     Text(
                         text = "Grievance Redress\nMechanism",
@@ -92,10 +97,11 @@ fun SplashScreen(
         }
     }
 }
+
 @Preview(showBackground = true)
 @Composable
 private fun SplashScreenPreview() {
     AttendanceTheme {
-        SplashScreen(    onNavigateToOnBoard = {})
+        SplashScreen()
     }
 }

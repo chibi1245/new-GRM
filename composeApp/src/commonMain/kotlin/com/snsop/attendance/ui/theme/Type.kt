@@ -51,7 +51,7 @@ fun ribeyeTitle(color: Color) = TextStyle(
         fontFamily = displayFontFamily(),
         fontSize = 32.sp,
         fontWeight = FontWeight.Bold,
-        color = color
+        color = primary
     )
 
 /**
