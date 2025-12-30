@@ -12,20 +12,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.navigation3.runtime.EntryProviderScope
 import androidx.navigation3.runtime.NavKey
-import com.snsop.attendance.presentation.AuthViewModel
+import com.snsop.attendance.grm_presentation.screens.auth.ForgotPasswordScreen
 import com.snsop.attendance.presentation.MainViewModel
+import com.snsop.attendance.presentation.SignInViewModel
 import com.snsop.attendance.presentation.navigation.Screens
 import com.snsop.attendance.presentation.navigation.components.entryWithVM
-import com.snsop.attendance.presentation.screens.auth.LoginScreen
+import com.snsop.attendance.grm_presentation.screens.auth.SignInScreen
 import com.snsop.attendance.ui.theme.Dimen
-import com.snsop.attendance.utils.log
 
 fun EntryProviderScope<NavKey>.authRoute(
     mainViewModel: MainViewModel
 ) {
-    entryWithVM<Screens.Login, AuthViewModel>(mainViewModel.backStack) {
-        val userInfo = mainViewModel.settings.userInfo
-        userInfo.log("userInfo")
+    entryWithVM<Screens.Login, SignInViewModel>(mainViewModel.backStack) {
+
         Scaffold(
             snackbarHost = {
                 SnackbarHost(hostState = snackBarState) { data ->
@@ -36,25 +35,40 @@ fun EntryProviderScope<NavKey>.authRoute(
                     )
                 }
             },
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier
+                .fillMaxSize()
                 .themeGradient(),
             containerColor = Color.Transparent,
             contentWindowInsets = WindowInsets()
-        ) {
+        ) { padding ->
 
-            LoginScreen(
-                oldUserName = userInfo.userName,
-                oldPassword = userInfo.password,
-                onSignIn = { userName, pass, rememberMe ->
-                    viewModel.login(
-                        userName = userName,
-                        password = pass,
-                        rememberMe = rememberMe,
-                        backStack = mainViewModel.backStack
-                    )
-                },
-                modifier = Modifier.fillMaxSize().padding(it)
+            SignInScreen(
+                viewModel = viewModel,
+                backStack = mainViewModel.backStack,
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(padding)
+            )
+        }
+    }
+    entryWithVM<Screens.ForgotPassword, SignInViewModel>(mainViewModel.backStack) {
+
+        Scaffold(
+            modifier = Modifier
+                .fillMaxSize()
+                .themeGradient(),
+            containerColor = Color.Transparent,
+            contentWindowInsets = WindowInsets()
+        ) { padding ->
+
+            ForgotPasswordScreen(
+                viewModel = viewModel, // SAME VM
+                backStack = mainViewModel.backStack,
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(padding)
             )
         }
     }
 }
+

@@ -5,7 +5,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -19,8 +18,11 @@ import androidx.navigation3.runtime.NavKey
 import com.snsop.attendance.presentation.SignInViewModel
 import com.snsop.attendance.grm_presentation.components.*
 import com.snsop.attendance.presentation.components.PrimaryButton
-import com.snsop.attendance.ui.theme.AttendanceTheme
-import com.snsop.attendance.ui.theme.Dimen
+import com.snsop.attendance.presentation.components.PrimaryOutlinedTextField
+import com.snsop.attendance.presentation.navigation.Screens
+import com.snsop.attendance.grm_presentation.components.animation.FadeInWidget
+import com.snsop.attendance.grm_presentation.components.animation.SlideUpWidget
+import com.snsop.attendance.ui.theme.*
 
 @Composable
 fun SignInScreen(
@@ -31,12 +33,10 @@ fun SignInScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                navigationIcon = {
-                    IconButton(onClick = { backStack.pop() }) {
-                        Icon(Icons.Default.ArrowBack, contentDescription = "Back")
-                    }
-                },
-                title = {},
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = primary
+                ),
+                title = {}
             )
         }
     ) { padding ->
@@ -60,14 +60,12 @@ fun SignInScreen(
                 viewModel.pinAdmin = pass
                 viewModel.signInAdmin(backStack)
             },
-            onForgotPassword = { /* navigate */ },
-            onSignUp = { /* navigate */ }
+            onForgotPassword = {
+                backStack.add(Screens.ForgotPassword)
+            },
+            onSignUp = { }
         )
     }
-}
-
-private fun NavBackStack<NavKey>.pop() {
-    TODO("Not yet implemented")
 }
 
 @Composable
@@ -94,51 +92,74 @@ fun SignInContent(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
-        Spacer(Modifier.height(24.dp))
+        Spacer(Modifier.height(15.dp))
 
-        Icon(Icons.Default.Check, contentDescription = null, modifier = Modifier.size(40.dp))
-        Text("GRM", style = MaterialTheme.typography.headlineLarge)
-        Spacer(Modifier.height(4.dp))
-        Text(
-            "GRIEVANCE REDRESS MECHANISM",
-            textAlign = TextAlign.Center
-        )
-
-        Spacer(Modifier.height(24.dp))
-
-        TabRow(selectedTabIndex = selectedTab) {
-            Tab(selected = selectedTab == 0, onClick = { selectedTab = 0 }) {
-                Text("Complainant", modifier = Modifier.padding(16.dp))
+        FadeInWidget(delay = 0.1) {
+            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                Icon(
+                    Icons.Default.Check,
+                    contentDescription = null,
+                    modifier = Modifier.size(40.dp),
+                    tint = primary
+                )
+                Text("GRM")
+                Spacer(Modifier.height(4.dp))
+                Text(
+                    "GRIEVANCE REDRESS MECHANISM",
+                    textAlign = TextAlign.Center
+                )
             }
-            Tab(selected = selectedTab == 1, onClick = { selectedTab = 1 }) {
-                Text("Administrative", modifier = Modifier.padding(16.dp))
+        }
+
+        Spacer(Modifier.height(24.dp))
+
+        FadeInWidget(delay = 0.15) {
+            TabRow(selectedTabIndex = selectedTab) {
+                Tab(selected = selectedTab == 0, onClick = { selectedTab = 0 }) {
+                    Text(
+                        "Complainant",
+                        style = ribeyeSub(primary),
+                        modifier = Modifier.padding(14.dp)
+                    )
+                }
+                Tab(selected = selectedTab == 1, onClick = { selectedTab = 1 }) {
+                    Text(
+                        "Administrative",
+                        style = ribeyeSub(primary),
+                        modifier = Modifier.padding(14.dp)
+                    )
+                }
             }
         }
 
         Spacer(Modifier.height(24.dp))
 
         if (selectedTab == 0) {
-            ComplainantLogin(
-                loader = loader,
-                obscureText = obscureText,
-                rememberMe = complainantRememberMe,
-                onTogglePassword = onTogglePassword,
-                onRememberMeChange = onComplainantRememberMeChange,
-                onLoginClick = onComplainantLogin,
-                onForgotPassword = onForgotPassword,
-                onSignUp = onSignUp
-            )
+            SlideUpWidget(delay = 0.2) {
+                ComplainantLogin(
+                    loader = loader,
+                    obscureText = obscureText,
+                    rememberMe = complainantRememberMe,
+                    onTogglePassword = onTogglePassword,
+                    onRememberMeChange = onComplainantRememberMeChange,
+                    onLoginClick = onComplainantLogin,
+                    onForgotPassword = onForgotPassword,
+                    onSignUp = onSignUp
+                )
+            }
         } else {
-            AdminLogin(
-                loader = loader,
-                obscureText = obscureText,
-                rememberMe = adminRememberMe,
-                onTogglePassword = onTogglePassword,
-                onRememberMeChange = onAdminRememberMeChange,
-                onLoginClick = onAdminLogin,
-                onForgotPassword = onForgotPassword,
-                onSignUp = onSignUp
-            )
+            SlideUpWidget(delay = 0.25) {
+                AdminLogin(
+                    loader = loader,
+                    obscureText = obscureText,
+                    rememberMe = adminRememberMe,
+                    onTogglePassword = onTogglePassword,
+                    onRememberMeChange = onAdminRememberMeChange,
+                    onLoginClick = onAdminLogin,
+                    onForgotPassword = onForgotPassword,
+                    onSignUp = onSignUp
+                )
+            }
         }
     }
 }
@@ -158,7 +179,6 @@ private fun ComplainantLogin(
     val password = remember { TextFieldState() }
 
     Column {
-
         Text(
             "To submit a grievance,\nlogin using your mobile number and the pin number sent to your mobile",
             textAlign = TextAlign.Center
@@ -184,19 +204,26 @@ private fun ComplainantLogin(
 
         RememberMeCheckbox(
             checked = rememberMe,
-            onCheckedChange = onRememberMeChange,
-
+            onCheckedChange = onRememberMeChange
         )
+
+        TextButton(onClick = onForgotPassword) {
+            Text("Forgot password ?")
+        }
 
         Spacer(Modifier.height(16.dp))
 
         PrimaryButton(
             text = if (loader) "Logging in..." else "Login",
             enabled = !loader,
-            onClick = { onLoginClick(username.text.toString(), password.text.toString()) }
+            onClick = {
+                onLoginClick(username.text.toString(), password.text.toString())
+            }
         )
 
-        SignUpRow(onSignUp)
+        SlideUpWidget(delay = 0.3) {
+            SignUpRow(onSignUp)
+        }
     }
 }
 
@@ -215,7 +242,6 @@ private fun AdminLogin(
     val password = remember { TextFieldState() }
 
     Column {
-
         Text("OFFICER'S PANEL", textAlign = TextAlign.Center)
 
         Spacer(Modifier.height(16.dp))
@@ -238,19 +264,26 @@ private fun AdminLogin(
 
         RememberMeCheckbox(
             checked = rememberMe,
-            onCheckedChange = onRememberMeChange,
-
+            onCheckedChange = onRememberMeChange
         )
+
+        TextButton(onClick = onForgotPassword) {
+            Text("Forgot password ?")
+        }
 
         Spacer(Modifier.height(16.dp))
 
         PrimaryButton(
             text = if (loader) "Logging in..." else "Login",
             enabled = !loader,
-            onClick = { onLoginClick(username.text.toString(), password.text.toString()) }
+            onClick = {
+                onLoginClick(username.text.toString(), password.text.toString())
+            }
         )
 
-        SignUpRow(onSignUp)
+        SlideUpWidget(delay = 0.3) {
+            SignUpRow(onSignUp)
+        }
     }
 }
 

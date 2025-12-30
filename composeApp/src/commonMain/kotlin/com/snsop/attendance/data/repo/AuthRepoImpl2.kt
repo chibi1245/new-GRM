@@ -10,7 +10,8 @@ import com.snsop.attendance.domain.model.UserInfo
 import com.snsop.attendance.domain.model.enums.UserStatus
 import com.snsop.attendance.domain.network.processGetRequest
 import com.snsop.attendance.domain.network.processPostRequest
-import com.snsop.attendance.domain.repo.AuthRepo
+import com.snsop.attendance.domain.repo.AuthRepo2
+
 import com.snsop.attendance.utils.isFalse
 
 import com.snsop.attendance.utils.isMinusOne
@@ -20,7 +21,7 @@ import io.ktor.client.HttpClient
 class AuthRepoImpl2(
     private val ktorClient: HttpClient,
     private val settings: AppSettings
-) : AuthRepo {
+) : AuthRepo2 {
 
     /**
      * Login user (Remote API)

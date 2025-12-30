@@ -2,7 +2,6 @@ package com.snsop.attendance.grm_presentation.components
 
 
 import androidx.compose.foundation.layout.*
-
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.text.input.TextFieldState
@@ -27,10 +26,12 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.sp
 import coil3.compose.SubcomposeAsyncImage
 import coil3.compose.SubcomposeAsyncImageContent
 import com.snsop.attendance.ui.theme.AttendanceTheme
 import com.snsop.attendance.ui.theme.Dimen
+import com.snsop.attendance.ui.theme.displayFontFamily
 import com.snsop.attendance.utils.bounceClick
 import com.snsop.attendance.utils.bounceOnClick
 import com.snsop.attendance.utils.singleClick
@@ -41,9 +42,12 @@ import kotlin.io.encoding.Base64
  * ------------------------------------------------------------------------- */
 
 @Composable
-fun HeadlineLargeText(text: String, color: Color = MaterialTheme.colorScheme.onBackground) {
-    Text(text, style = MaterialTheme.typography.headlineLarge, color = color)
-}
+fun ribeyeTitle(color: Color) = TextStyle(
+    fontFamily = displayFontFamily(),
+    fontSize = 32.sp,
+    fontWeight = FontWeight.Bold,
+    color = color
+)
 
 @Composable
 fun BodyLargeText(text: String) {

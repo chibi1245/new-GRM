@@ -51,7 +51,7 @@ fun ribeyeTitle(color: Color) = TextStyle(
         fontFamily = displayFontFamily(),
         fontSize = 32.sp,
         fontWeight = FontWeight.Bold,
-        color = primary
+        color = color
     )
 
 /**
@@ -60,8 +60,8 @@ fun ribeyeTitle(color: Color) = TextStyle(
  */
 @Composable
 fun ribeyeSub(color: Color) = TextStyle(
-    fontFamily = displayFontFamily(),
-    fontSize = 16.sp,
+    fontFamily = bodyFontFamily(),
+    fontSize = 15.sp,
     fontWeight = FontWeight.Bold,
     color = color
 )

@@ -6,16 +6,15 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.delay
 
 import attendance.composeapp.generated.resources.Res
@@ -24,8 +23,6 @@ import org.jetbrains.compose.resources.painterResource
 
 import com.snsop.attendance.grm_presentation.components.animation.FadeInWidget
 import com.snsop.attendance.grm_presentation.components.animation.SlideUpWidget
-
-
 import com.snsop.attendance.ui.theme.AttendanceTheme
 import com.snsop.attendance.ui.theme.black45
 import com.snsop.attendance.ui.theme.primary
@@ -34,13 +31,18 @@ import com.snsop.attendance.ui.theme.white
 
 @Composable
 fun SplashScreen(
-    onNavigateToOnBoard: () -> Unit = {}
+    isUserLoggedIn: Boolean,
+    onNavigateToLogin: () -> Unit,
+
 ) {
-    // ⛔ Prevent navigation crash in Preview
+    // ✅ Run navigation once
     LaunchedEffect(Unit) {
-        if (onNavigateToOnBoard !== {}) {
-            delay(2000)
-            onNavigateToOnBoard()
+        delay(2000) // ⏱ Splash duration
+
+        if (isUserLoggedIn) {
+            onNavigateToLogin()
+        } else {
+            onNavigateToLogin()
         }
     }
 
@@ -102,6 +104,10 @@ fun SplashScreen(
 @Composable
 private fun SplashScreenPreview() {
     AttendanceTheme {
-        SplashScreen()
+        SplashScreen(
+            isUserLoggedIn = false,
+            onNavigateToLogin = {},
+
+        )
     }
 }

@@ -55,7 +55,8 @@ class MainViewModel(
     val backStack by savedStateHandle.saved(
         configuration = navConfiguration
     ) {
-        NavBackStack(if (isUserLoggedIn) Screens.Home else Screens.Login)
+        NavBackStack<NavKey>(Screens.Splash)
+
     }
 
     var selectedBoma = BomaItem()
