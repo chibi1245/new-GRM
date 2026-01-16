@@ -17,7 +17,7 @@ fun App() {
     getPlatform().log()
     KoinMultiplatformApplication(config = KoinConfiguration { modules(appModules) }) {
         AttendanceTheme {
-            SetupNavDisplay()
+            OcrScreenEntry()
         }
     }
 }

@@ -61,15 +61,23 @@ kotlin {
         androidMain.dependencies {
             implementation(libs.androidx.activity.compose)
             implementation(libs.androidx.room.sqlite.wrapper)
-            implementation(libs.ktor.client.okhttp)
             implementation(libs.androidx.core.splashscreen)
             implementation(libs.slf4j.simple)
+            implementation(libs.generativeai)
+            implementation(libs.text.recognition)
+            implementation(libs.ktor.client.okhttp)
+
+
+
+
         }
         // KSP Common sourceSet
         commonMain.configure {
             kotlin.srcDir("build/generated/ksp/metadata/commonMain/kotlin")
         }
         commonMain.dependencies {
+
+
             implementation(libs.compose.components.resources)
             implementation(libs.compose.runtime)
             implementation(libs.compose.foundation)
@@ -81,6 +89,7 @@ kotlin {
             implementation(libs.androidx.lifecycle.runtimeCompose)
             implementation(libs.savedstate.compose)
 
+            implementation(libs.ktor.client.timeout)
             implementation(libs.bundles.koin)
             api(libs.koin.annotations)
             implementation(libs.bundles.ktor)
@@ -113,6 +122,8 @@ kotlin {
         }
         iosMain.dependencies {
             implementation(libs.ktor.client.darwin)
+
+
         }
     }
 }

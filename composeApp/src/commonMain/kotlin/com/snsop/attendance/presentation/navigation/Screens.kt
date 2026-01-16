@@ -7,6 +7,7 @@ import kotlinx.serialization.modules.SerializersModule
 
 @Serializable
 object Screens{
+    @Serializable data object Ocr : NavKey
     @Serializable data object Splash : NavKey
     @Serializable data object Login : NavKey
     @Serializable data object Home : NavKey
@@ -53,6 +54,7 @@ enum class ConfirmAction {
 // Create a SerializersModule to define polymorphism
 val navKeySerializersModule = SerializersModule {
     polymorphic(NavKey::class, Screens.Splash::class, Screens.Splash.serializer())
+    polymorphic(NavKey::class, Screens.Ocr::class, Screens.Ocr.serializer())
 
     polymorphic(NavKey::class, Screens.Login::class, Screens.Login.serializer())
     polymorphic(NavKey::class, Screens.Home::class, Screens.Home.serializer())

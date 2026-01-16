@@ -11,6 +11,7 @@ import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.scene.DialogSceneStrategy
 import androidx.navigation3.ui.NavDisplay
+import com.snsop.attendance.ocrRoute
 import com.snsop.attendance.presentation.MainViewModel
 import com.snsop.attendance.presentation.navigation.components.InitBaseVM
 import com.snsop.attendance.presentation.navigation.route.*
@@ -60,6 +61,7 @@ fun SetupNavDisplay(modifier: Modifier = Modifier) {
                         attendanceRoute(
                             viewModel = viewModel
                         )
+                        ocrRoute()
                     }
                 )
             }

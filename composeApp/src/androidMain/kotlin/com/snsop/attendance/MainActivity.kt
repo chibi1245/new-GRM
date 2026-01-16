@@ -1,4 +1,4 @@
-9package com.snsop.attendance
+package com.snsop.attendance
 
 import android.graphics.Color
 import android.os.Bundle
